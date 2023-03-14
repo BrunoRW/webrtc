@@ -1,6 +1,9 @@
+import { Console } from "console";
 import React, { useState, useEffect } from "react";
 
 export default function App(): JSX.Element {
+
+  let camAct = false;
 
   const getELements = () => {
       let outCam = document.querySelector("#camera");
@@ -20,25 +23,6 @@ export default function App(): JSX.Element {
     await navigator.mediaDevices.getUserMedia({"audio": true});
   }
 
-  function stopCam(){
-    let tx = saveData.cameraTrack[0];
-
-    tx.stop();
-
-    saveData.cameraTrack[1] = false;
-  }
-
-    function enableCamera() {
-      navigator.mediaDevices.getUserMedia({"video": true})
-      .then(e => {
-        let track = e.getVideoTracks()[0];
-
-        saveData.cameraTrack[0] = track;
-        saveData.cameraTrack[1] = true;
-
-        (getELements().outCam as HTMLVideoElement).srcObject = e;
-      })
-    }
 
 
   async function enableVideo() {
@@ -47,11 +31,20 @@ export default function App(): JSX.Element {
     (outScreen as HTMLVideoElement).srcObject = videoC;
   }
 
-  function btCam(){
-    let tm = saveData.cameraTrack[1];
-
-    tm == false ? enableCamera() : stopCam();
-    
+  let time = 0;
+  function btCam(t: any){
+    let tmp = new Date().getTime();
+    if(tmp > time){
+        time = tmp + 2000;
+        navigator.mediaDevices.getUserMedia({"video": true})
+        .then(e => {
+          let track = e.getVideoTracks()[0];
+            (getELements().outCam as HTMLVideoElement).srcObject = e;
+            t.target.onclick = () => {
+              track.stop();
+            }
+        })
+      }
   }
 
   return(
@@ -61,7 +54,7 @@ export default function App(): JSX.Element {
       <br/>
       <div>
         <button onClick={() => enableAudio()}>🎙️</button>
-        <button id="btCamera" data-tm="enable" onClick={() => btCam()}>📷</button>
+        <button id="btCamera" data-tm="enable" onClick={e => btCam(e)}>📷</button>
         <button onClick={() => enableVideo()}>🖥️</button>
       </div>
       <br/>
