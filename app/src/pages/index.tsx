@@ -35,16 +35,16 @@ export default function App(): JSX.Element {
   function btCam(t: any){
     let tmp = new Date().getTime();
     if(tmp > time){
-        time = tmp + 2000;
-        navigator.mediaDevices.getUserMedia({"video": true})
-        .then(e => {
-          let track = e.getVideoTracks()[0];
-            (getELements().outCam as HTMLVideoElement).srcObject = e;
-            t.target.onclick = () => {
-              track.stop();
-            }
-        })
-      }
+      time = tmp + 2000;
+      navigator.mediaDevices.getUserMedia({"video": true})
+      .then(e => {
+        let track = e.getVideoTracks()[0];
+          (getELements().outCam as HTMLVideoElement).srcObject = e;
+          t.target.onclick = () => {
+            track.stop();
+          }
+      })
+    }
   }
 
   return(

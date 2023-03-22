@@ -2,4 +2,10 @@ video{
   background: black;
   width: 200px;
   aspect-ratio: 1.75;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+body{
+  background: #1b1b1b;
 }
